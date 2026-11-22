@@ -1,0 +1,4 @@
+interface:
+  display_name: "Личный harness"
+  short_description: "Локальная работа, проверки и ручная приёмка"
+  default_prompt: "Примени $local-harness для работы над задачей и подготовки проверенного результата."
