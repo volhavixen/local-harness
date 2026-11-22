@@ -3,7 +3,7 @@ name: local-harness
 description: Use when starting or resuming substantial local development, reviewing an MR/PR, or preparing a verified result for the user's manual acceptance, especially across interrupted runs or parallel chats. Not needed for short explanations or isolated text corrections.
 ---
 
-# Личный harness
+# Local harness
 
 Подготовить проверяемый результат: версия, выполненные проверки, среда ручной
 приёмки при необходимости и оставшиеся ограничения. Этот skill применяется к
@@ -13,7 +13,7 @@ description: Use when starting or resuming substantial local development, review
 
 1. Перед работой прочитать применимые инструкции проекта и
    [постоянные пользовательские инструкции](../../AGENTS.md).
-   Их [границы полномочий](../../AGENTS.md#личный-harness-codex) сохраняются;
+   Их [границы полномочий](../../AGENTS.md#подключение-local-harness) сохраняются;
    переход между процедурами не создаёт нового поручения.
 2. До реализации или основного ревью прочитать
    [классификацию S1–S7, матрицу T1–T6 и критерий готовности](references/scope-and-applicability.md).

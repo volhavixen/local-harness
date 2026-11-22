@@ -4,13 +4,23 @@
 процессов системы: проверка, запущенная напрямую в обход helper, не ограничивается.
 Порядок получения слота не гарантирует строгий FIFO. Серверы и браузеры не останавливаются.
 
+Инструмент необязателен для базовой установки harness. Требуются Python 3.9+ и POSIX `fcntl`: macOS, Linux или WSL. Нативно в Windows эта очередь не запускается. Все согласованные участники должны использовать один экземпляр и одно состояние в одной среде; очередь WSL не перехватывает команды Windows.
+
+Если очередь уже установлена, сохраните прежнее расположение helper и state. Обновление файлов отложите до свободного `--status`, включая завершение screen-брони её владельцем. Не перемещайте активную очередь и не создавайте новую копию рядом: отдельный state разорвёт взаимное исключение.
+
+После выбора единственного общего экземпляра задайте абсолютный путь (пример POSIX shell):
+
+```sh
+export HARNESS_QUEUE="/absolute/path/to/resource-queue/heavy_check.py"
+```
+
 Из нужной рабочей копии:
 
 ```sh
-python3 ~/Documents/Work/CodexTools/resource-queue/heavy_check.py --runner vitest -- pnpm exec vitest run
-python3 ~/Documents/Work/CodexTools/resource-queue/heavy_check.py -- pnpm lint
-python3 ~/Documents/Work/CodexTools/resource-queue/heavy_check.py -- pnpm typecheck
-python3 ~/Documents/Work/CodexTools/resource-queue/heavy_check.py --status
+python3 "$HARNESS_QUEUE" --runner vitest -- pnpm exec vitest run
+python3 "$HARNESS_QUEUE" -- pnpm lint
+python3 "$HARNESS_QUEUE" -- pnpm typecheck
+python3 "$HARNESS_QUEUE" --status
 ```
 
 Runtime, package manager и команды определяются проектом. По умолчанию один worker,
@@ -23,7 +33,7 @@ Jest, Playwright (если явно разрешён) и последовате�
 С постоянным логом local-harness можно обернуть `check.py`:
 
 ```sh
-python3 ~/Documents/Work/CodexTools/resource-queue/heavy_check.py --runner vitest -- python3 ~/.codex/skills/local-harness/scripts/check.py --run /absolute/run/outside/repository --name unit-1 --cwd /absolute/worktree -- pnpm exec vitest run
+python3 "$HARNESS_QUEUE" --runner vitest -- python3 ~/.codex/skills/local-harness/scripts/check.py --run /absolute/run/outside/repository --name unit-1 --cwd /absolute/worktree -- pnpm exec vitest run
 ```
 
 Очередь использует файловую блокировку `state/slot.lock`, автоматически освобождаемую
@@ -42,7 +52,7 @@ PID и zombie не блокируют очередь. Уже работающи�
 командами CLI. Для них перед навигацией нужно получить бронь **того же** слота:
 
 ```sh
-python3 ~/Documents/Work/CodexTools/resource-queue/heavy_check.py --reserve-screens mr204-manual-check
+python3 "$HARNESS_QUEUE" --reserve-screens manual-check
 ```
 
 Оставить процесс работать в tool-session; если exec вернул session ID, продолжать
@@ -55,7 +65,7 @@ python3 ~/Documents/Work/CodexTools/resource-queue/heavy_check.py --reserve-scre
 при ошибке браузера тоже дождаться компиляции. После этого из другого tool-вызова:
 
 ```sh
-python3 ~/Documents/Work/CodexTools/resource-queue/heavy_check.py --release СВОЙ_TOKEN_ИЗ_JSON
+python3 "$HARNESS_QUEUE" --release СВОЙ_TOKEN_ИЗ_JSON
 ```
 
 Дождаться завершения процесса брони. Release использует уникальный token и не

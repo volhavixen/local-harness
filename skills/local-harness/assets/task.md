@@ -29,7 +29,7 @@ allowed_actions: []
 - Затронутый пользовательский путь или основание, почему UI-прогон не нужен:
 - Фактические команды и источник (конфигурация проверяемой версии):
 - Runtime/менеджер пакетов и способ воспроизводимой установки:
-- Общая очередь по [политике запуска](https://github.com/volhavixen/local-harness/blob/main/skills/local-harness/references/run-results.md#обязательная-очередь-тяжёлых-локальных-проверок): команда, runner, workers, лог и фактическое состояние:
+- Общая очередь по [политике запуска](https://github.com/volhavixen/local-harness/blob/main/skills/local-harness/references/run-results.md#очередь-тяжёлых-локальных-проверок): команда, runner, workers, лог и фактическое состояние:
 
 ## Существенные риски и пограничные сценарии
 
